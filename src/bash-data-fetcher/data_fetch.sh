@@ -81,7 +81,6 @@ if test $# -ge 2; then
     if test "$res" -ne 0; then
         echo "Error: fetch interval is not a decimal value"
         usage
-    echo "a"
         exit 1
     fi
     fetch_interval="$2"

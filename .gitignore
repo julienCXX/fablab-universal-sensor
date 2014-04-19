@@ -1,2 +1,5 @@
-
+.metadata/
+appcompat_v7/
+DeviceScanActivity/
+SensorTagUniversalSensor/
 *.zip

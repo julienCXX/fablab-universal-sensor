@@ -90,17 +90,14 @@ int main(int argc, char** argv)
 	tuple<float, float, float> raw_acc;
 	deque<bool> *proc_values = NULL;
 	//cin.sync_with_stdio(false);
-	ifstream vib;
-	vib.open("Vibration2.csv");
-	while (!vib.eof()) {
-		getline(vib, line);
+	while (!cin.eof()) {
+		getline(cin, line);
 		if (line.empty())
 			continue;
 		line_to_accel_tuple(line, &date, &raw_acc);
 		dates.push_back(date);
 		raw_accs.push_back(raw_acc);
 	}
-	vib.close();
 
 	proc_values = filter_accel_data(raw_accs, threshold, in_h_active,
 			in_h_inactive);

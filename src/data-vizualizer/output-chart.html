@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Sensor processed data</title>
+        <!--<link rel="stylesheet" href="style.css" type="text/css">-->
+        <script src="amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="amcharts/serial.js" type="text/javascript"></script>
+        <script src="amcharts/exporting/amexport.js"
+            type="text/javascript"></script>
+        <script src="amcharts/exporting/rgbcolor.js"
+            type="text/javascript"></script>
+        <script src="amcharts/exporting/canvg.js"
+            type="text/javascript"></script>
+        <script src="amcharts/exporting/filesaver.js"
+            type="text/javascript"></script>
+        <script src="jsdat.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="chartdiv" style="width: 100%; height: 500px;"></div>
+    </body>
+
+    <script type="text/javascript">
+        AmCharts.ready(function() {
+            // chart setting
+            var chart = new AmCharts.AmSerialChart();
+            chart.pathToImages = "amcharts/images/";
+            chart.dataProvider = chartData;
+            chart.categoryField = "date";
+            chart.dataDateFormat = "YYYY-MM-DD HH:NN:SS";
+            chart.creditsPosition = "bottom-right";
+            var categoryAxis = chart.categoryAxis;
+            categoryAxis.parseDates = true;
+            categoryAxis.minPeriod = "ss";
+
+            // y axis setting
+            // regular value axis
+            var valueAxis = new AmCharts.ValueAxis();
+            chart.addValueAxis(valueAxis);
+
+            // value axis used for fills
+            var valueAxisColumn = new AmCharts.ValueAxis();
+            valueAxisColumn.stackType = "100%";
+            valueAxisColumn.labelsEnabled = false;
+            valueAxisColumn.gridAlpha = 0;
+            valueAxisColumn.axisAlpha = 0;
+            chart.addValueAxis(valueAxisColumn);
+
+            var valueAxisBlank = new AmCharts.ValueAxis();
+            valueAxisBlank.labelsEnabled = false;
+            valueAxisBlank.gridAlpha = 0;
+            valueAxisBlank.axisAlpha = 0;
+            chart.addValueAxis(valueAxisBlank);
+
+            var valueAxisXYZAcc = new AmCharts.ValueAxis();
+            valueAxisXYZAcc.gridAlpha = 0;
+            chart.addValueAxis(valueAxisXYZAcc);
+
+            // graph creation and setting
+            var hOff = new AmCharts.AmGraph();
+            hOff.type = "step";
+            hOff.valueAxis = valueAxisColumn;
+            hOff.valueField = "hOff";
+            hOff.alphaField = "hOff";
+            hOff.title = "Heater is off";
+            hOff.lineColor = "#0000FF";
+            hOff.lineAlpha = 0;
+            hOff.fillAlphas = 0.5;
+            hOff.showBalloon = false;
+            chart.addGraph(hOff);
+
+            var hOn = new AmCharts.AmGraph();
+            hOn.type = "step";
+            hOn.valueAxis = valueAxisColumn;
+            hOn.valueField = "hOn";
+            hOn.alphaField = "hOn";
+            hOn.title = "Heater is on";
+            hOn.lineColor = "#FF0000";
+            hOn.lineAlpha = 0;
+            hOn.fillAlphas = 0.5;
+            hOn.showBalloon = false;
+            chart.addGraph(hOn);
+
+            var graphScroll = new AmCharts.AmGraph();
+            graphScroll.type = "step";
+            graphScroll.valueAxis = valueAxisBlank;
+            graphScroll.valueField = "hOn";
+            graphScroll.lineAlpha = 0;
+            graphScroll.fillAlphas = 0;
+            graphScroll.showBalloon = false;
+            chart.addGraph(graphScroll);
+
+            var graph = new AmCharts.AmGraph();
+            graph.valueAxis = valueAxisXYZAcc;
+            graph.valueField = "x";
+            graph.type = "line";
+            graph.bullet = "round";
+            //graph.stackable = false;
+            chart.addGraph(graph);
+
+            var graph2 = new AmCharts.AmGraph();
+            graph2.valueAxis = valueAxisXYZAcc;
+            graph2.valueField = "y";
+            graph2.type = "line";
+            graph2.bullet = "round";
+            //graph2.stackable = false;
+            chart.addGraph(graph2);
+
+            var graph3 = new AmCharts.AmGraph();
+            graph3.valueAxis = valueAxisXYZAcc;
+            graph3.valueField = "z";
+            graph3.type = "line";
+            graph3.bullet = "round";
+            //graph3.stackable = false;
+            chart.addGraph(graph3);
+
+            // cursor
+            chartCursor = new AmCharts.ChartCursor();
+            chartCursor.cursorPosition = "mouse";
+            chartCursor.pan = true;
+            chartCursor.categoryBalloonDateFormat = "HH:NN:SS";
+            chart.addChartCursor(chartCursor);
+
+            // scrollbar
+            var chartScrollbar = new AmCharts.ChartScrollbar();
+            chartScrollbar.scrollbarHeight = 30;
+            chartScrollbar.graph = graphScroll;
+            chartScrollbar.updateOnReleaseOnly = true;
+            chartScrollbar.usePeriod = "HH";
+            chart.addChartScrollbar(chartScrollbar);
+
+            // export
+            chart.exportConfig = {
+                menuTop: "51px",
+                menuBottom: "auto",
+                menuLeft: "53px",
+                backgroundColor: "#efefef",
+                menuItemStyle: {
+                    backgroundColor: '#EFEFEF',
+                    rollOverBackgroundColor: '#DDDDDD'
+                },
+                menuItems: [{
+                    textAlign: 'center',
+                    icon: 'amcharts/images/export.png',
+                    onclick:function(){},
+                    items: [{
+                            title: 'JPG',
+                            format: 'jpg'
+                        }, {
+                            title: 'PNG',
+                            format: 'png'
+                        }, {
+                            title: 'SVG',
+                            format: 'svg'
+                        }]
+                    }]
+            };
+
+            // chart writing
+            chart.write('chartdiv');
+        });
+    </script>
+</html>
+

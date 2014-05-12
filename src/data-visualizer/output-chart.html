@@ -4,8 +4,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Sensor processed data</title>
         <!--<link rel="stylesheet" href="style.css" type="text/css">-->
+        <!-- AmCharts base and serial charts module -->
         <script src="amcharts/amcharts.js" type="text/javascript"></script>
         <script src="amcharts/serial.js" type="text/javascript"></script>
+        <!-- theme file -->
+        <script src="amcharts/themes/light.js" type="text/javascript"></script>
+        <script src="amcharts/themes/dark.js" type="text/javascript"></script>
+        <script src="amcharts/themes/black.js" type="text/javascript"></script>
+        <!-- export modules -->
         <script src="amcharts/exporting/amexport.js"
             type="text/javascript"></script>
         <script src="amcharts/exporting/rgbcolor.js"
@@ -18,6 +24,7 @@
     </head>
     <body>
         <div id="chartdiv" style="width: 100%; height: 500px;"></div>
+        <div id="legenddiv" style="width: 100%; height: 300px;"></div>
     </body>
 
     <script type="text/javascript">
@@ -88,30 +95,34 @@
             graphScroll.lineAlpha = 0;
             graphScroll.fillAlphas = 0;
             graphScroll.showBalloon = false;
+            graphScroll.visibleInLegend = false;
             chart.addGraph(graphScroll);
 
             var graph = new AmCharts.AmGraph();
             graph.valueAxis = valueAxisXYZAcc;
             graph.valueField = "x";
+            graph.title = "Acceleration in X direction";
             graph.type = "line";
             graph.bullet = "round";
-            //graph.stackable = false;
+            graph.showBalloon = false;
             chart.addGraph(graph);
 
             var graph2 = new AmCharts.AmGraph();
             graph2.valueAxis = valueAxisXYZAcc;
             graph2.valueField = "y";
+            graph2.title = "Acceleration in Y direction";
             graph2.type = "line";
             graph2.bullet = "round";
-            //graph2.stackable = false;
+            graph2.showBalloon = false;
             chart.addGraph(graph2);
 
             var graph3 = new AmCharts.AmGraph();
             graph3.valueAxis = valueAxisXYZAcc;
             graph3.valueField = "z";
+            graph3.title = "Acceleration in Z direction";
             graph3.type = "line";
             graph3.bullet = "round";
-            //graph3.stackable = false;
+            graph3.showBalloon = false;
             chart.addGraph(graph3);
 
             // cursor
@@ -123,15 +134,21 @@
 
             // scrollbar
             var chartScrollbar = new AmCharts.ChartScrollbar();
-            chartScrollbar.scrollbarHeight = 30;
+            chartScrollbar.scrollbarHeight = 40;
             chartScrollbar.graph = graphScroll;
             chartScrollbar.updateOnReleaseOnly = true;
             chartScrollbar.usePeriod = "HH";
+            chartScrollbar.autoGridCount = true;
+            chartScrollbar.color = "#000000";
+            chartScrollbar.selectedGraphFillColor = "#BB4444";
+            chartScrollbar.selectedGraphLineColor = "#BB4444";
+            chartScrollbar.graphFillColor = "#EEBBBB";
+            chartScrollbar.graphLineColor = "#EEBBBB";
             chart.addChartScrollbar(chartScrollbar);
 
             // export
             chart.exportConfig = {
-                menuTop: "51px",
+                menuTop: "61px",
                 menuBottom: "auto",
                 menuLeft: "53px",
                 backgroundColor: "#efefef",
@@ -156,7 +173,9 @@
                     }]
             };
 
-            // chart writing
+            // chart legend and writing
+            var legend = new AmCharts.AmLegend();
+            chart.addLegend(legend, "legenddiv");
             chart.write('chartdiv');
         });
     </script>

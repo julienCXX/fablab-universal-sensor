@@ -15,39 +15,45 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.discoverServicesAndCharacteristics(callback);
         },
         function(callback) {
-            console.log('enableHumidity');
-            sensorTag.enableHumidity(callback);
+            console.log('enableAccelerometer');
+            sensorTag.enableAccelerometer(callback);
         },
         function(callback) {
-            console.log('readHumidity');
+            setTimeout(callback, 2000);
+        },
+        function(callback) {
+            console.log('readAccelerometer');
             i = 0;
-            sensorTag.readHumidity(function(temperature, humidity) {
+            sensorTag.readAccelerometer(function(x, y, z) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '\tTemperature = %d °C', temperature.toFixed(1));
-                console.log(dateString + '\tHumidity= %d %', humidity.toFixed(1));
+                console.log(dateString + '%d\t%d\t%d', x.toFixed(1), y.toFixed(1), z.toFixed(1));
+//            console.log(dateString + '\ty = %d G', y.toFixed(1));
+//            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
                 i++;
-                if (i >= 5)
+                if (i >= 1000)
                     callback();
             });
 
-            sensorTag.on('humidityChange', function(temperature, humidity) {
+            sensorTag.on('accelerometerChange', function(x, y, z) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '\tTemperature = %d °C', temperature.toFixed(1));
-                console.log(dateString + '\tHumidity= %d %', humidity.toFixed(1));
+                console.log(dateString + '%d\t%d\t%d', x.toFixed(1), y.toFixed(1), z.toFixed(1));
+//            console.log(dateString + '\ty = %d G', y.toFixed(1));
+//            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
                 i++;
-                if (i >= 5)
+                if (i >= 1000) {
                     callback();
+                }
             });
 
-            sensorTag.notifyHumidity(function() {
+            sensorTag.notifyAccelerometer(function() {
 
             });
         },
         function(callback) {
-            console.log('disableHumidity');
-            sensorTag.disableHumidity(callback);
+            console.log('disableAccelerometer');
+            sensorTag.disableAccelerometer(callback);
         },
         function(callback) {
             console.log('disconnect');

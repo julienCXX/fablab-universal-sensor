@@ -15,39 +15,46 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.discoverServicesAndCharacteristics(callback);
         },
         function(callback) {
-            console.log('enableHumidity');
-            sensorTag.enableHumidity(callback);
+            console.log('enableIrTemperature');
+            sensorTag.enableIrTemperature(callback);
         },
         function(callback) {
-            console.log('readHumidity');
+            setTimeout(callback, 2000);
+        },
+        function(callback) {
             i = 0;
-            sensorTag.readHumidity(function(temperature, humidity) {
+            console.log('readIrTemperature');
+            sensorTag.readIrTemperature(function(objectTemperature, ambientTemperature) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '\tTemperature = %d °C', temperature.toFixed(1));
-                console.log(dateString + '\tHumidity= %d %', humidity.toFixed(1));
+                console.log(dateString + '%d', objectTemperature.toFixed(1));
+//                console.log(dateString + '%d', ambientTemperature.toFixed(1));
                 i++;
-                if (i >= 5)
+                if (false) {
+                    //               //console.log("Sortie");
                     callback();
+                }
             });
 
-            sensorTag.on('humidityChange', function(temperature, humidity) {
+            sensorTag.on('irTemperatureChange', function(objectTemperature, ambientTemperature) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '\tTemperature = %d °C', temperature.toFixed(1));
-                console.log(dateString + '\tHumidity= %d %', humidity.toFixed(1));
+                console.log(dateString + '%d', objectTemperature.toFixed(1));
+//                console.log(dateString + '%d', ambientTemperature.toFixed(1));
                 i++;
-                if (i >= 5)
+                if (false) {
+                    //               //console.log("Sortie");
                     callback();
+                }
             });
 
-            sensorTag.notifyHumidity(function() {
+            sensorTag.notifyIrTemperature(function() {
 
             });
         },
         function(callback) {
-            console.log('disableHumidity');
-            sensorTag.disableHumidity(callback);
+            console.log('disableIrTemperature');
+            sensorTag.disableIrTemperature(callback);
         },
         function(callback) {
             console.log('disconnect');

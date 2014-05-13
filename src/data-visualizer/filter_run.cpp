@@ -23,6 +23,14 @@ vector<string> split(const string& s, char separator)
 	return output;
 }
 
+void line_to_float(const string &line, time_t *date, float *value)
+{
+	vector<string> tokens = split(line, ' ');
+	const char *s_val = tokens[1].c_str();
+	*value = stof(s_val);
+	*date = t_string_to_time(tokens[0]);
+}
+
 void line_to_accel_tuple(const string &line, time_t *date,
 		tuple<float, float, float> *tuple)
 {
@@ -43,6 +51,15 @@ string bool_to_json_heat_on_off(const bool val)
 		return "\"hOff\":0,\"hOn\":1";
 	else
 		return "\"hOff\":1,\"hOn\":0";
+}
+
+void print_temp_chart_element(ostream &stream, time_t date, bool value,
+		float temp)
+{
+	stream << '{';
+	stream << "\"temp\":" << temp << ',';
+	stream << "\"date\":\"" << time_to_string(date) << "\",";
+	stream << bool_to_json_heat_on_off(value) << '}' << endl;
 }
 
 void print_acc_chart_element(ostream &stream, time_t date, bool value,
@@ -86,6 +103,8 @@ int main(int argc, char** argv)
 	string line;
 	deque<time_t> dates;
 	time_t date;
+	float raw_temp;
+	deque<float> raw_temps;
 	deque<tuple<float, float, float>> raw_accs;
 	tuple<float, float, float> raw_acc;
 	deque<bool> *proc_values = NULL;
@@ -94,12 +113,16 @@ int main(int argc, char** argv)
 		getline(cin, line);
 		if (line.empty())
 			continue;
-		line_to_accel_tuple(line, &date, &raw_acc);
+		line_to_float(line, &date, &raw_temp);
+		//line_to_accel_tuple(line, &date, &raw_acc);
 		dates.push_back(date);
-		raw_accs.push_back(raw_acc);
+		raw_temps.push_back(raw_temp);
+		//raw_accs.push_back(raw_acc);
 	}
 
-	proc_values = filter_accel_data(raw_accs, threshold, in_h_active,
+	/*proc_values = filter_accel_data(raw_accs, threshold, in_h_active,
+			in_h_inactive);*/
+	proc_values = filter_heat_data(raw_temps, threshold, in_h_active,
 			in_h_inactive);
 	if (proc_values == NULL) {
 		cerr << "Error: not enough memory" << endl;
@@ -108,15 +131,18 @@ int main(int argc, char** argv)
 
 	auto it_dates = dates.begin(), it_dates_end = dates.end();
 	auto it_values = proc_values->begin();
-	auto it_raw = raw_accs.begin();
+	//auto it_raw = raw_accs.begin();
+	auto it_raw = raw_temps.begin();
 	jsdat << "var chartData = [";
-	print_acc_chart_element(jsdat, *it_dates, *it_values, *it_raw);
+	print_temp_chart_element(jsdat, *it_dates, *it_values, *it_raw);
+	//print_acc_chart_element(jsdat, *it_dates, *it_values, *it_raw);
 	it_dates++;
 	it_values++;
 	it_raw++;
 	for (; it_dates != it_dates_end; it_dates++, it_values++, it_raw++) {
 		jsdat << ',';
-		print_acc_chart_element(jsdat, *it_dates, *it_values, *it_raw);
+		print_temp_chart_element(jsdat, *it_dates, *it_values, *it_raw);
+		//print_acc_chart_element(jsdat, *it_dates, *it_values, *it_raw);
 	}
 	jsdat << "];";
 	delete proc_values;

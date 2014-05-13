@@ -7,8 +7,9 @@ using namespace std;
 void set_last_items_to(deque<bool> &list, uint32_t nb_elts, bool value)
 {
 	uint32_t count = 0;
-	auto it = list.end();
-	for (; count < nb_elts; it--, count++)
+	deque<bool>::reverse_iterator it = list.rbegin();
+	deque<bool>::reverse_iterator it_end = list.rend();
+	for (; count < nb_elts && it != it_end; it++, count++)
 		*it = value;
 }
 

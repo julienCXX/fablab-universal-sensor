@@ -25,9 +25,52 @@
     <body>
         <div id="chartdiv" style="width: 100%; height: 500px;"></div>
         <div id="legenddiv" style="width: 100%; height: 300px;"></div>
+        <div id="daystatdiv" style="width: 100%; height: 500px;"></div>
     </body>
 
     <script type="text/javascript">
+        var makeScrollBar = function() {
+            var chartScrollbar = new AmCharts.ChartScrollbar();
+            chartScrollbar.scrollbarHeight = 40;
+            chartScrollbar.updateOnReleaseOnly = true;
+            chartScrollbar.autoGridCount = true;
+            chartScrollbar.color = "#000000";
+            chartScrollbar.selectedGraphFillColor = "#BB4444";
+            chartScrollbar.selectedGraphLineColor = "#BB4444";
+            chartScrollbar.graphFillColor = "#EEBBBB";
+            chartScrollbar.graphLineColor = "#EEBBBB";
+            return chartScrollbar;
+        }
+
+        var makeExportConfig = function() {
+            return {
+                menuTop: "61px",
+                menuBottom: "auto",
+                menuLeft: "53px",
+                backgroundColor: "#efefef",
+                menuItemStyle: {
+                    backgroundColor: '#EFEFEF',
+                    rollOverBackgroundColor: '#DDDDDD'
+                },
+                menuItems: [{
+                    textAlign: 'center',
+                    icon: 'amcharts/images/export.png',
+                    onclick:function(){},
+                    items: [{
+                            title: 'JPG',
+                            format: 'jpg'
+                        }, {
+                            title: 'PNG',
+                            format: 'png'
+                        }, {
+                            title: 'SVG',
+                            format: 'svg'
+                    }]
+                }]
+            };
+
+        }
+
         AmCharts.ready(function() {
             // chart setting
             var chart = new AmCharts.AmSerialChart();
@@ -98,6 +141,16 @@
             graphScroll.visibleInLegend = false;
             chart.addGraph(graphScroll);
 
+            var tGraph = new AmCharts.AmGraph();
+            tGraph.valueAxis = valueAxisXYZAcc;
+            tGraph.valueField = "temp";
+            tGraph.title = "Temperature (°C)";
+            tGraph.type = "line";
+            tGraph.bullet = "round";
+            tGraph.showBalloon = false;
+            tGraph.hideBulletsCount = 35;
+            chart.addGraph(tGraph);
+
             var graph = new AmCharts.AmGraph();
             graph.valueAxis = valueAxisXYZAcc;
             graph.valueField = "x";
@@ -133,50 +186,76 @@
             chart.addChartCursor(chartCursor);
 
             // scrollbar
-            var chartScrollbar = new AmCharts.ChartScrollbar();
-            chartScrollbar.scrollbarHeight = 40;
+            var chartScrollbar = makeScrollBar();
             chartScrollbar.graph = graphScroll;
-            chartScrollbar.updateOnReleaseOnly = true;
             chartScrollbar.usePeriod = "HH";
-            chartScrollbar.autoGridCount = true;
-            chartScrollbar.color = "#000000";
-            chartScrollbar.selectedGraphFillColor = "#BB4444";
-            chartScrollbar.selectedGraphLineColor = "#BB4444";
-            chartScrollbar.graphFillColor = "#EEBBBB";
-            chartScrollbar.graphLineColor = "#EEBBBB";
             chart.addChartScrollbar(chartScrollbar);
 
             // export
-            chart.exportConfig = {
-                menuTop: "61px",
-                menuBottom: "auto",
-                menuLeft: "53px",
-                backgroundColor: "#efefef",
-                menuItemStyle: {
-                    backgroundColor: '#EFEFEF',
-                    rollOverBackgroundColor: '#DDDDDD'
-                },
-                menuItems: [{
-                    textAlign: 'center',
-                    icon: 'amcharts/images/export.png',
-                    onclick:function(){},
-                    items: [{
-                            title: 'JPG',
-                            format: 'jpg'
-                        }, {
-                            title: 'PNG',
-                            format: 'png'
-                        }, {
-                            title: 'SVG',
-                            format: 'svg'
-                        }]
-                    }]
-            };
+            chart.exportConfig = makeExportConfig();
 
             // chart legend and writing
             var legend = new AmCharts.AmLegend();
             chart.addLegend(legend, "legenddiv");
             chart.write('chartdiv');
+
+            var dayStatChartData = [{
+                "date":"2014-05-10",
+                "dActiv":"218"
+            },{
+                "date":"2014-05-11",
+                "dActiv":"4380"
+            }];
+            // daily heat activation duration (statistics)
+            dayStatChart = new AmCharts.AmSerialChart();
+            dayStatChart.pathToImages = "amcharts/images/";
+            dayStatChart.dataProvider = dayStatChartData;
+            dayStatChart.categoryField = "date";
+            dayStatChart.dataDateFormat = "YYYY-MM-DD";
+            dayStatChart.creditsPosition = "bottom-right";
+            var categoryAxis = dayStatChart.categoryAxis;
+            categoryAxis.parseDates = true;
+            categoryAxis.minPeriod = "DD";
+
+            // main axis
+            var dateValueAxis = new AmCharts.ValueAxis();
+            dateValueAxis.title = "Heater activation duration";
+            dateValueAxis.duration = "ss";
+            dateValueAxis.durationUnits = {
+                "hh": "h ",
+                "mm": "min ",
+                "ss": "sec"
+            };
+            dayStatChart.addValueAxis(dateValueAxis);
+
+            // graph
+            var dayStatGraph = new AmCharts.AmGraph();
+            dayStatGraph.valueField = "dActiv";
+            dayStatGraph.title = "Daily heater activity";
+            dayStatGraph.type = "column";
+            dayStatGraph.fillAlphas = 1;
+            dayStatGraph.labelPosition = "middle";
+            dayStatGraph.labelText = "[[value]]";
+            dayStatChart.addGraph(dayStatGraph);
+
+            // cursor
+            chartCursor = new AmCharts.ChartCursor();
+            chartCursor.fullWidth = true;
+            chartCursor.cursorAlpha = 0.1;
+            chartCursor.cursorColor = "#000000";
+            dayStatChart.addChartCursor(chartCursor);
+
+            // scrollbar
+            chartScrollbar = makeScrollBar();
+            chartScrollbar.graph = dayStatGraph;
+            dayStatChart.addChartScrollbar(chartScrollbar);
+
+            // export
+            dayStatChart.exportConfig = makeExportConfig();
+            dayStatChart.exportConfig.menuLeft = "160px";
+
+            // chart writing
+            dayStatChart.write('daystatdiv');
         });
     </script>
 </html>

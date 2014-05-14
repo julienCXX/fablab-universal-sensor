@@ -2,6 +2,8 @@ var util = require('util');
 
 var async = require('async');
 
+require('./file_io');
+
 var SensorTag = require('./node_sensortag/index');
 
 SensorTag.discover(function(sensorTag) {
@@ -27,7 +29,8 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.readAccelerometer(function(x, y, z) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
+                //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
+                appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));
 //            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
                 i++;
@@ -38,7 +41,8 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.on('accelerometerChange', function(x, y, z) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
+                //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
+                appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));
 //            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
                 i++;

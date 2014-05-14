@@ -2,6 +2,8 @@ var util = require('util');
 
 var async = require('async');
 
+require('./file_io');
+
 var SensorTag = require('./node_sensortag/index');
 
 SensorTag.discover(function(sensorTag) {
@@ -27,7 +29,8 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.readIrTemperature(function(objectTemperature, ambientTemperature) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '%d', objectTemperature.toFixed(2));
+                //console.log(dateString + '%d', objectTemperature.toFixed(2));
+                appendToCurrFile(dateString + objectTemperature.toFixed(2));
 //                console.log(dateString + '%d', ambientTemperature.toFixed(1));
                 i++;
                 if (false) {
@@ -39,7 +42,8 @@ SensorTag.discover(function(sensorTag) {
             sensorTag.on('irTemperatureChange', function(objectTemperature, ambientTemperature) {
                 var date = new Date();
                 var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
-                console.log(dateString + '%d', objectTemperature.toFixed(2));
+                //console.log(dateString + '%d', objectTemperature.toFixed(2));
+                appendToCurrFile(dateString + objectTemperature.toFixed(2));
 //                console.log(dateString + '%d', ambientTemperature.toFixed(1));
                 i++;
                 if (false) {

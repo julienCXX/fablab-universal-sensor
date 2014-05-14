@@ -2,6 +2,7 @@
 appcompat_v7/
 DeviceScanActivity/
 SensorTagUniversalSensor/
+*node_modules/
 *.zip
 *.o
 *~

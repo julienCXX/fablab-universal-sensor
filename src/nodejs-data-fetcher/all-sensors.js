@@ -10,6 +10,8 @@ var SensorTag = require('./node_sensortag/index');
 
 var intervalHandle;
 
+setAutomaticFilePath('../../measures/');
+
 var numPrecision = 2;
 
 var measure = {

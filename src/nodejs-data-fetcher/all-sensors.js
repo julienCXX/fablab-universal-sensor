@@ -188,6 +188,9 @@ SensorTag.discover(function(sensorTag) {
             cleanDisconnect = true;
             clearInterval(intervalHandle);
             console.log('interrupt recevied');
+            callback();
+        },
+        function(callback) {
             console.log('disconnect');
             sensorTag.disconnect(callback);
         }

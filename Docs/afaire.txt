@@ -1,0 +1,23 @@
+********************************  Rendus  ************************************
+
+- Flyer: format ok, à terminer
+- Poster: basé sur flyer
+- Video: format pub, "je voudrais vérifier ma consommation pour comparer à ma facture", 
+on voit l'équipe qui étudie l'installation, installe le sensortag, prend les mesures, et
+annalyse ces mesures.
+- Remplir le wiki (graphes, protocoles, photos)
+- Présentation: faire une démonstration sur les tuyaux de la cafet
+
+********************************   À Faire   *********************************
+
+- Utiliser les autres capteurs
+- Baisser la fréquence d'échantillonnage
+- Super mesure sur tuyau: utiliser tout les capteur, robinet fermé ouvert fermé, analysé les résultats
+- Analyse des mesures:
+	° à partir de quel débit d'eau on capte les vibrations ?
+	° à partir de quelle température (proportion d'eau chaude) d'eau on arrive à capter ?
+	° acceléromètre: faire une moyenne en fonctione du débit
+	° marquer sur les graphes les actions de l'utilisateur
+- Écrire les protocoles réalisés
+- Mettre sur le wiki, avec les graphes
+- Faire des tests à la cafet pour la démo

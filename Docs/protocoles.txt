@@ -1,0 +1,40 @@
+=== Mesure de la vibration en fonction du débit d'eau ===
+
+- À faire sur le tuyau d'arrivée d'eau de l'appartement
+- La mesure du débit d'eau se fait avec une bassine graduée
+(pour vérifier les graduation, on a utilisé une bouteille d'eau de 1,5l
+qu'on a vidée plusieurs fois dans la bassine. Les graduations semblent
+juste. Prendre plutôt le bas des graduations)
+- Cette mesure ne peut se faire qu'à postriori. Ainsi pour avoir une 
+approximation avant la mesure on peut évaluer le débit grâce à 
+l'ouverture du robinet (fonction de son angle). (photo)
+- Pour établir vibration = f(débit), faire un ensemble de mesure
+pour des débits croissants.
+- À chaque fois, il faudra chronométrer le temps de remplissage 
+d'un certain volume d'eau
+- Attention, pour évaluer correctement le débit, il faut que l'ouveerture 
+du robinet soit la plus rapide possible, et que la durée de mesure soit
+suffisamment longue (environ 30 secondes).
+
+Quelques mesures de débit maximal:
+ - 20"78, 5L -> 14,4 L/min
+ - 22"17, 5L -> 13,5 L/min
+
+Incertitudes:
+ - la mesure de débit n'est pas très précise
+
+Analyse:
+ - Visuellement: on pourra voir des graphes avec des variations plus ou moins grande
+ - En mesurant les pics sur ces graphes
+ - En calculant la moyenne lors des vibrations 
+
+=== À partir de quelle température d'eau de sortie du robinet ===
+=== on peut capter la demande d'eau chaude ?				  ===
+
+- Il est difficile de mesurer la température d'eau chaude en sortie 
+de robinet
+- Par contre on sait mesurer un débit
+- Or la température de sortie dépend de la proportion d'eau chaude
+et d'eau froide.
+- On peut donc faire la même mesure que précédemment, mais en mesurant
+les vibrations sur le tuyau d'eau chaude de la chaudière

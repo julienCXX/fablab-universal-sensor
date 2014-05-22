@@ -18,6 +18,7 @@ annalyse ces mesures.
 	° à partir de quelle température (proportion d'eau chaude) d'eau on arrive à capter ?
 	° acceléromètre: faire une moyenne en fonctione du débit
 	° marquer sur les graphes les actions de l'utilisateur
-- Écrire les protocoles réalisés
+- Écrire les protocoles à réaliser
+	° Fait pour mesure des vibrations en fonction du débit (à mettre sur wiki)
 - Mettre sur le wiki, avec les graphes
 - Faire des tests à la cafet pour la démo

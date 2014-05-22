@@ -86,7 +86,9 @@ var triplet3dToString = function (element) {
 
 var dateToString = function(date) {
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-'
-        + date.getDate() + 'T' + date.toLocaleTimeString();
+        + date.getDate() + 'T' + date.getHours()
+        + ':' + date.getMinutes() + ':' + date.getSeconds()
+        + '.' + date.getMilliseconds();
 };
 
 var measureToLine = function() {

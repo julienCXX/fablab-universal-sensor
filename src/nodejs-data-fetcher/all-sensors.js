@@ -8,7 +8,9 @@ require('./signal_handler');
 
 var SensorTag = require('./node_sensortag/index');
 
+var fetchDelay = 1000; // in ms
 var intervalHandle;
+var cleanDisconnect = false;
 
 setAutomaticFilePath('../../measures/');
 
@@ -99,7 +101,7 @@ var measureToLine = function() {
         + triplet3dToString(measure.gyro);
 };
 
-SensorTag.discover(function(sensorTag) {
+var connectAndInitProcedure = function(sensorTag, callback) {
     async.series([
         function(callback) {
             console.log('connect');
@@ -135,28 +137,53 @@ SensorTag.discover(function(sensorTag) {
                 sensorTag.readGyroscope(setCurGyro);
             }, 2000);
             setTimeout(callback, 2000);
+        }
+    ], callback);
+}
+
+var sensorReadLoop = function(sensorTag) {
+    setCurDate(new Date());
+    sensorTag.readIrTemperature(setCurObjAmbTemp);
+    sensorTag.readAccelerometer(setCurAccel);
+    sensorTag.readHumidity(setCurHumidity);
+    sensorTag.readMagnetometer(setCurMagnet);
+    sensorTag.readBarometricPressure(setCurPressure);
+    sensorTag.readGyroscope(setCurGyro);
+    appendToCurrFile(measureToLine());
+}
+
+console.log('Use Ctrl-C to stop this program');
+console.log('Waiting for SensorTag discovery');
+SensorTag.discover(function(sensorTag) {
+    async.series([
+        function(callback) {
+            connectAndInitProcedure(sensorTag, callback);
         },
         function(callback) {
             console.log('read all sensors');
             intervalHandle = setInterval(function() {
-                setCurDate(new Date());
-                sensorTag.readIrTemperature(setCurObjAmbTemp);
-                sensorTag.readAccelerometer(setCurAccel);
-                sensorTag.readHumidity(setCurHumidity);
-                sensorTag.readMagnetometer(setCurMagnet);
-                sensorTag.readBarometricPressure(setCurPressure);
-                sensorTag.readGyroscope(setCurGyro);
-                appendToCurrFile(measureToLine());
-            }, 1000);
+                sensorReadLoop(sensorTag);
+            }, fetchDelay);
             // setting interrupt callback
             setSigIntCallback(callback);
             sensorTag.on('disconnect', function() {
-                console.log('SensorTag disconnected');
+                if (cleanDisconnect) {
+                    return;
+                }
+                clearInterval(intervalHandle);
+                console.log('lost connection to SensorTag');
+                connectAndInitProcedure(sensorTag, function() {
+                    changeCurFileNameToNextIndex();
+                    intervalHandle = setInterval(function() {
+                        sensorReadLoop(sensorTag);
+                    }, fetchDelay);
+                });
             });
         },
         function(callback) {
-            console.log('interrupt recevied');
+            cleanDisconnect = true;
             clearInterval(intervalHandle);
+            console.log('interrupt recevied');
             console.log('disconnect');
             sensorTag.disconnect(callback);
         }

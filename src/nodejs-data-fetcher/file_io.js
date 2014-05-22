@@ -101,7 +101,7 @@ changeCurFileNameToNextIndex = function() {
         return;
     }
     setIndexToNextAvailable();
-    setFileNameToCurrentPrefix();
+    curFileName = getFileNameWithSuffix(getTodayDatePrefix(), curFileIndex);
 }
 
 appendToCurrFile = function(string) {

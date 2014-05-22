@@ -90,7 +90,7 @@ var dateToString = function(date) {
     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-'
         + date.getDate() + 'T' + date.getHours()
         + ':' + date.getMinutes() + ':' + date.getSeconds()
-        + '.' + date.getMilliseconds();
+        + '.' + leftPad(date.getMilliseconds(), 3);
 };
 
 var fieldDesc = '# date irTemp ambientTemp pressure humidity acceleration(x y z) magnetometer(x y z) gyroscope(x y z)';

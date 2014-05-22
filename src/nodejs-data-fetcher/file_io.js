@@ -11,7 +11,7 @@ var curFileIndex = 0;
 
 
 // see: http://stackoverflow.com/questions/8043026/javascript-format-number-to-have-2-digit
-var leftPad = function(number, targetLength) {
+leftPad = function(number, targetLength) {
     var output = number + '';
     while (output.length < targetLength) {
         output = '0' + output;

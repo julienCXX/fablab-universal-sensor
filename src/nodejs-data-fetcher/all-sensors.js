@@ -8,11 +8,10 @@ require('./signal_handler');
 
 var SensorTag = require('./node_sensortag/index');
 
+var filePath = '../../measures/';
 var fetchDelay = 1000; // in ms
 var intervalHandle;
 var cleanDisconnect = false;
-
-setAutomaticFilePath('../../measures/');
 
 var numPrecision = 2;
 
@@ -163,6 +162,7 @@ SensorTag.discover(function(sensorTag) {
         },
         function(callback) {
             console.log('read all sensors');
+            setAutomaticFilePath(filePath);
             appendToCurrFile(fieldDesc);
             intervalHandle = setInterval(function() {
                 sensorReadLoop(sensorTag);

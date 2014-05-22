@@ -77,6 +77,7 @@ var updateCurFileNameIfRequired = function() {
         curFileIndex = 0;
         setIndexToNextAvailable();
         curFileName = getFileNameWithSuffix(getTodayDatePrefix(), curFileIndex);
+        console.log('Writing to file: ' + curFilePath + curFileName);
     }
 }
 
@@ -84,6 +85,7 @@ setManualFileNameAndPath = function(fileNameAndPath) {
     automaticFileName = false;
     curFilePath = '';
     curFileName = fileNameAndPath;
+    console.log('Writing to file: ' + curFileName);
 }
 
 setAutomaticFilePath = function(filePath) {
@@ -102,6 +104,7 @@ changeCurFileNameToNextIndex = function() {
     }
     setIndexToNextAvailable();
     curFileName = getFileNameWithSuffix(getTodayDatePrefix(), curFileIndex);
+    console.log('Writing to file: ' + curFilePath + curFileName);
 }
 
 appendToCurrFile = function(string) {

@@ -93,6 +93,8 @@ var dateToString = function(date) {
         + '.' + date.getMilliseconds();
 };
 
+var fieldDesc = '# date irTemp ambientTemp pressure humidity acceleration(x y z) magnetometer(x y z) gyroscope(x y z)';
+
 var measureToLine = function() {
     return dateToString(measure.date) + " " + measure.objTemp + " "
         + measure.ambTemp + " " + measure.pressure + " " + measure.humidity
@@ -161,6 +163,7 @@ SensorTag.discover(function(sensorTag) {
         },
         function(callback) {
             console.log('read all sensors');
+            appendToCurrFile(fieldDesc);
             intervalHandle = setInterval(function() {
                 sensorReadLoop(sensorTag);
             }, fetchDelay);
@@ -174,6 +177,7 @@ SensorTag.discover(function(sensorTag) {
                 console.log('lost connection to SensorTag');
                 connectAndInitProcedure(sensorTag, function() {
                     changeCurFileNameToNextIndex();
+                    appendToCurrFile(fieldDesc);
                     intervalHandle = setInterval(function() {
                         sensorReadLoop(sensorTag);
                     }, fetchDelay);

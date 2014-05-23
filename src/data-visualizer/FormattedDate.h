@@ -10,8 +10,6 @@ class FormattedDate
 {
 	private:
 		QDateTime date;
-		// assignation operator
-		FormattedDate &operator=(const FormattedDate &fd);
 
 	public:
 		// default constructor
@@ -25,18 +23,18 @@ class FormattedDate
 		FormattedDate(const FormattedDate &other);
 
 		// comparaison operators
-		bool operator==(const FormattedDate &other);
-		bool operator!=(const FormattedDate &other);
-		bool operator>(const FormattedDate &other);
-		bool operator<(const FormattedDate &other);
-		bool operator>=(const FormattedDate &other);
-		bool operator<=(const FormattedDate &other);
+		bool operator==(const FormattedDate &other) const;
+		bool operator!=(const FormattedDate &other) const;
+		bool operator>(const FormattedDate &other) const;
+		bool operator<(const FormattedDate &other) const;
+		bool operator>=(const FormattedDate &other) const;
+		bool operator<=(const FormattedDate &other) const;
 
 		// flow operators
-		std::ostream &operator<<(std::ostream &output);
+		std::ostream &operator<<(std::ostream &output) const;
 
 		// prints like "1111-12-31 23:59:59.123"
-		std::string toString();
+		std::string toString() const;
 
 		/*
 		 * setting date from a formatted date string

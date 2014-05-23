@@ -1,8 +1,12 @@
 CXX=g++
-CXXFLAGS=-std=c++11 -Wall -Wextra -g
+DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
+INCPATH=-I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I.
+LIBS=-lQt5Core
+CXXFLAGS=-std=c++11 -Wall -Wextra -g $(LIBS) -fPIE $(DEFINES) $(INCPATH)
 
 EXEC=filter_run
-OBJS=filter.o dateconv.o filter_run.o
+CPP_SOURCES=$(wildcard *.cpp)
+OBJS=$(CPP_SOURCES:%.cpp=%.o)
 
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(EXEC) $(OBJS)

@@ -103,3 +103,45 @@ float Measure::operator[](int index) const
 	return values[index];
 }
 
+string Measure::toJsonFormat(const JsonMeasureFormat &format) const
+{
+	string output;
+	string field, field2;
+
+	// output date information
+	output.append("\"date\":" + date.toString());
+
+	// output result information
+	if (format.getIsBoolResult()) {
+		field = format.getBoolTrueResultField();
+		field2 = format.getBoolFalseResultField();
+		if (!field.empty() && !field2.empty()) {
+			if (getBoolResult())
+				output.append(",\"" + field + "\":1" ",\""
+						+ field2 + "\":0");
+			else
+				output.append(",\"" + field + "\":0" ",\""
+						+ field2 + "\":1");
+		}
+	} else {
+		field = format.getNonBoolResultField();
+		if (!field.empty()) {
+			output.append(",\"" + field + "\":");
+			output.append(to_string(getFloatResult()));
+		}
+	}
+
+	// output values information
+	int size = nbOfValues();
+	for (int i = 0; i < size; i++) {
+		field = format.getValueField(i);
+		if (!field.empty()) {
+			output.append(",\"" + field + "\":");
+			output.append(to_string((*this)[i]));
+		}
+	}
+
+	return output;
+}
+
+

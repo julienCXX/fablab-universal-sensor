@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "FormattedDate.h"
+#include "JsonMeasureFormat.h"
 
 /*
  * a representation of a SensorTag measure (several values possibles),
@@ -51,6 +52,9 @@ class Measure
 
 		// direct access to value: 0 == 1st element of "values"
 		float operator[](int index) const;
+
+		// prints without opening "{" and closing "}"
+		std::string toJsonFormat(const JsonMeasureFormat &format) const;
 };
 
 #endif

@@ -6,9 +6,11 @@
 #include <libconfig.h++>
 
 typedef enum {
-	HEAT,
-	HEAT_ADVANCED,
-	ACCELERATION
+	NONE,
+	ON_OFF_HEAT,
+	ON_OFF_HEAT_ADVANCED,
+	ON_OFF_ACCELERATION,
+	WATER_FLOW_ACCELERATION
 } FilterType;
 
 // the program's global settings

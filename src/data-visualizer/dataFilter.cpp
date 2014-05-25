@@ -53,15 +53,20 @@ int main()
 	// applying filter
 	cerr << "Filtering" << endl;
 	switch (as.getFilterType()) {
-		case HEAT:
+		case ON_OFF_HEAT:
 			Filters::filterHeatData(ms, as.getFilterParameters());
 			break;
-		case HEAT_ADVANCED:
+		case ON_OFF_HEAT_ADVANCED:
 			Filters::filterHeatDataAdvanced(ms,
 					as.getFilterParameters());
 			break;
-		case ACCELERATION:
+		case ON_OFF_ACCELERATION:
 			Filters::filterAccelData(ms, as.getFilterParameters());
+			break;
+		case WATER_FLOW_ACCELERATION:
+			break;
+		case NONE:
+			break;
 	}
 	
 	// writing results to output

@@ -18,7 +18,7 @@ string ApplicationSettings::getInputFilePath() const
 
 FilterType ApplicationSettings::getFilterType() const
 {
-	return ACCELERATION;
+	return ON_OFF_ACCELERATION;
 }
 
 ParamFilterData ApplicationSettings::getFilterParameters() const

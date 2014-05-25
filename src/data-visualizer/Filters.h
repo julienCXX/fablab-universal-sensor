@@ -12,7 +12,9 @@ typedef struct {
 		struct {
 			uint32_t heatMeasureIdx;
 			union {
-				float threshold; 
+				// basic filter
+				float threshold;
+				// advanced filter
 				struct {
 					float thresholdHActive;
 					float thresholdHInactive;

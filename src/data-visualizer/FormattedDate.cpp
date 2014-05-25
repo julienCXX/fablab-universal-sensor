@@ -63,10 +63,15 @@ string FormattedDate::toString() const
 void FormattedDate::setFromString(const string &str_date)
 {
 	static const char *format = "yyyy-M-dTHH:mm:ss.zzz";
+	static const char *formatBis = "yyyy-M-dTH:m:s.zzz";
 	static const char *formatSimp = "yyyy-M-dTHH:mm:ss";
 	static const QString qFormat = QString(format);
+	static const QString qFormatBis = QString(formatBis);
 	static const QString qFormatSimp = QString(formatSimp);
 	date = QDateTime::fromString(str_date.c_str(), qFormat);
+	if (!date.isValid())
+		// date with non padded h m s
+		date = QDateTime::fromString(str_date.c_str(), qFormatBis);
 	if (!date.isValid())
 		// date without ms
 		date = QDateTime::fromString(str_date.c_str(), qFormatSimp);

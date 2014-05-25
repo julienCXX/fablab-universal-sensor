@@ -1,4 +1,5 @@
 #include "MeasureSet.h"
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -21,8 +22,7 @@ void MeasureSet::add(const string &filePath, const char separ)
 	ifstream file;
 	string line;
 	file.open(filePath);
-	while (!file.eof()) {
-		getline(file, line);
+	while (getline(file, line)) {
 		if (line.empty() || line[0] == '#')
 			continue;
 		add(Measure(line, separ));
@@ -72,6 +72,7 @@ string MeasureSet::toJsonFormat(const JsonMeasureFormat &format) const
 	while (it != itEnd) {
 		output.append(",{");
 		output.append(it->second.toJsonFormat(format) + "}");
+		it++;
 	}
 	output.append("]");
 

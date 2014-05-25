@@ -60,7 +60,6 @@ var GYROSCOPE_DATA_UUID                     = 'f000aa5104514000b000000000000000'
 var SIMPLE_KEY_DATA_UUID                    = 'ffe1';
 
 function SensorTag(peripheral) {
-	console.log("Funcion");
   this._peripheral = peripheral;
   this._services = {};
   this._characteristics = {};

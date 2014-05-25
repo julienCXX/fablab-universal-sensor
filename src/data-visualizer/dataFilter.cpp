@@ -21,9 +21,12 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
 	ApplicationSettings as;
+	if (argc > 1)
+		as.readFromFile(string(argv[1]));
+	cerr << "file read" << endl;
 	string fileName = as.getInputFileName(),
 	       filePath = as.getInputFilePath();
 	fs::path path(fs::current_path());

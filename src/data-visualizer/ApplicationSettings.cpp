@@ -1,9 +1,18 @@
 #include "ApplicationSettings.h"
+#include <iostream>
+#include <cassert>
 
 using namespace std;
 
 ApplicationSettings::ApplicationSettings(const string &configFile)
 {
+	if (!configFile.empty())
+		readFromFile(configFile);
+}
+
+void ApplicationSettings::readFromFile(const string &configFile)
+{
+	assert(!configFile.empty());
 	conf.readFile(configFile.c_str());
 }
 
@@ -78,9 +87,6 @@ JsonMeasureFormat ApplicationSettings::getOutputConfig() const
 	int i;
 	JsonMeasureFormat jmf;
 	jmf.setIsBoolResult(true);
-	jmf.setValueField(0, "x");
-	jmf.setValueField(1, "y");
-	jmf.setValueField(2, "z");
 	if (conf.lookupValue("outputConfiguration.isBoolResult", b))
 		jmf.setIsBoolResult(b);
 	if (conf.lookupValue("outputConfiguration.irTempIdx", i))

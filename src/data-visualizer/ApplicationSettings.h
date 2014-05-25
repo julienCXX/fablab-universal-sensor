@@ -20,8 +20,9 @@ class ApplicationSettings
 		libconfig::Config conf;
 
 	public:
-		ApplicationSettings(const std::string &configFile = "");
+		ApplicationSettings(const std::string &configFile = "settings.conf");
 
+		void readFromFile(const std::string &configFile);
 		std::string getInputFileName() const;
 		std::string getInputFilePath() const;
 		FilterType getFilterType() const;

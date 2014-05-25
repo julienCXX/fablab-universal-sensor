@@ -16,6 +16,11 @@ string ApplicationSettings::getInputFilePath() const
 	return "measures/";
 }
 
+FilterType ApplicationSettings::getFilterType() const
+{
+	return ACCELERATION;
+}
+
 ParamFilterData ApplicationSettings::getFilterParameters() const
 {
 	ParamFilterData fd;

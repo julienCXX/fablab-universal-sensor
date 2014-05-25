@@ -5,6 +5,12 @@
 #include "JsonMeasureFormat.h"
 #include <libconfig.h++>
 
+typedef enum {
+	HEAT,
+	HEAT_ADVANCED,
+	ACCELERATION
+} FilterType;
+
 // the program's global settings
 class ApplicationSettings
 {
@@ -16,6 +22,7 @@ class ApplicationSettings
 
 		std::string getInputFileName() const;
 		std::string getInputFilePath() const;
+		FilterType getFilterType() const;
 		ParamFilterData getFilterParameters() const;
 		JsonMeasureFormat getOutputConfig() const;
 		bool getShowDailyStatistics() const;

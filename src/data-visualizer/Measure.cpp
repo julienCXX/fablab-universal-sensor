@@ -100,6 +100,8 @@ bool Measure::operator<=(const Measure &other) const
 
 float Measure::operator[](int index) const
 {
+	assert(index >= 0);
+	assert(index < nbOfValues());
 	return values[index];
 }
 
@@ -109,7 +111,7 @@ string Measure::toJsonFormat(const JsonMeasureFormat &format) const
 	string field, field2;
 
 	// output date information
-	output.append("\"date\":" + date.toString());
+	output.append("\"date\":\"" + date.toString() + "\"");
 
 	// output result information
 	if (format.getIsBoolResult()) {

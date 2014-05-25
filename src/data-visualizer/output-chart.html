@@ -29,6 +29,10 @@
     </body>
 
     <script type="text/javascript">
+        var isEmpty = function(str) {
+            return str === undefined || str === null || str === "";
+        }
+
         var makeScrollBar = function() {
             var chartScrollbar = new AmCharts.ChartScrollbar();
             chartScrollbar.scrollbarHeight = 40;
@@ -77,7 +81,7 @@
             chart.pathToImages = "amcharts/images/";
             chart.dataProvider = chartData;
             chart.categoryField = "date";
-            chart.dataDateFormat = "YYYY-MM-DD HH:NN:SS";
+            chart.dataDateFormat = "YYYY-MM-DD HH:NN:SS.QQQ";
             chart.creditsPosition = "bottom-right";
             var categoryAxis = chart.categoryAxis;
             categoryAxis.parseDates = true;
@@ -102,9 +106,13 @@
             valueAxisBlank.axisAlpha = 0;
             chart.addValueAxis(valueAxisBlank);
 
-            var valueAxisXYZAcc = new AmCharts.ValueAxis();
-            valueAxisXYZAcc.gridAlpha = 0;
-            chart.addValueAxis(valueAxisXYZAcc);
+            var valueAxisXYZ = new AmCharts.ValueAxis();
+            valueAxisXYZ.gridAlpha = 0;
+            chart.addValueAxis(valueAxisXYZ);
+
+            var valueAxisSingleVal = new AmCharts.ValueAxis();
+            valueAxisSingleVal.gridAlpha = 0;
+            chart.addValueAxis(valueAxisSingleVal);
 
             // graph creation and setting
             var hOff = new AmCharts.AmGraph();
@@ -141,42 +149,138 @@
             graphScroll.visibleInLegend = false;
             chart.addGraph(graphScroll);
 
-            var tGraph = new AmCharts.AmGraph();
-            tGraph.valueAxis = valueAxisXYZAcc;
-            tGraph.valueField = "temp";
-            tGraph.title = "Temperature (°C)";
-            tGraph.type = "line";
-            tGraph.bullet = "round";
-            tGraph.showBalloon = false;
-            tGraph.hideBulletsCount = 35;
-            chart.addGraph(tGraph);
+            var hideBulletsCount = 20;
 
-            var graph = new AmCharts.AmGraph();
-            graph.valueAxis = valueAxisXYZAcc;
-            graph.valueField = "x";
-            graph.title = "Acceleration in X direction";
-            graph.type = "line";
-            graph.bullet = "round";
-            graph.showBalloon = false;
-            chart.addGraph(graph);
+            // raw measures graph
+            var irTempGraph = new AmCharts.AmGraph();
+            irTempGraph.valueAxis = valueAxisSingleVal;
+            irTempGraph.valueField = "irTemp";
+            irTempGraph.title = "IR temperature (°C)";
+            irTempGraph.type = "line";
+            irTempGraph.bullet = "round";
+            irTempGraph.showBalloon = false;
+            irTempGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(irTempGraph);
 
-            var graph2 = new AmCharts.AmGraph();
-            graph2.valueAxis = valueAxisXYZAcc;
-            graph2.valueField = "y";
-            graph2.title = "Acceleration in Y direction";
-            graph2.type = "line";
-            graph2.bullet = "round";
-            graph2.showBalloon = false;
-            chart.addGraph(graph2);
+            var ambTempGraph = new AmCharts.AmGraph();
+            ambTempGraph.valueAxis = valueAxisSingleVal;
+            ambTempGraph.valueField = "ambTemp";
+            ambTempGraph.title = "Ambiant temperature (°C)";
+            ambTempGraph.type = "line";
+            ambTempGraph.bullet = "round";
+            ambTempGraph.showBalloon = false;
+            ambTempGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(ambTempGraph);
 
-            var graph3 = new AmCharts.AmGraph();
-            graph3.valueAxis = valueAxisXYZAcc;
-            graph3.valueField = "z";
-            graph3.title = "Acceleration in Z direction";
-            graph3.type = "line";
-            graph3.bullet = "round";
-            graph3.showBalloon = false;
-            chart.addGraph(graph3);
+            var presGraph = new AmCharts.AmGraph();
+            presGraph.valueAxis = valueAxisSingleVal;
+            presGraph.valueField = "pressure";
+            presGraph.title = "Pressure (hPa)";
+            presGraph.type = "line";
+            presGraph.bullet = "round";
+            presGraph.showBalloon = false;
+            presGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(presGraph);
+
+            var humGraph = new AmCharts.AmGraph();
+            humGraph.valueAxis = valueAxisSingleVal;
+            humGraph.valueField = "humidity";
+            humGraph.title = "Humidity (%)";
+            humGraph.type = "line";
+            humGraph.bullet = "round";
+            humGraph.showBalloon = false;
+            humGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(humGraph);
+
+            var accXGraph = new AmCharts.AmGraph();
+            accXGraph.valueAxis = valueAxisXYZ;
+            accXGraph.valueField = "accX";
+            accXGraph.title = "Acceleration in X direction (g)";
+            accXGraph.type = "line";
+            accXGraph.bullet = "round";
+            accXGraph.showBalloon = false;
+            accXGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(accXGraph);
+
+            var accYGraph = new AmCharts.AmGraph();
+            accYGraph.valueAxis = valueAxisXYZ;
+            accYGraph.valueField = "accY";
+            accYGraph.title = "Acceleration in Y direction (g)";
+            accYGraph.type = "line";
+            accYGraph.bullet = "round";
+            accYGraph.showBalloon = false;
+            accYGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(accYGraph);
+
+            var accZGraph = new AmCharts.AmGraph();
+            accZGraph.valueAxis = valueAxisXYZ;
+            accZGraph.valueField = "accZ";
+            accZGraph.title = "Acceleration in Z direction (g)";
+            accZGraph.type = "line";
+            accZGraph.bullet = "round";
+            accZGraph.showBalloon = false;
+            accZGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(accZGraph);
+
+            var magnXGraph = new AmCharts.AmGraph();
+            magnXGraph.valueAxis = valueAxisXYZ;
+            magnXGraph.valueField = "magnX";
+            magnXGraph.title = "Magnetic field in X direction (uT)";
+            magnXGraph.type = "line";
+            magnXGraph.bullet = "round";
+            magnXGraph.showBalloon = false;
+            magnXGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(magnXGraph);
+
+            var magnYGraph = new AmCharts.AmGraph();
+            magnYGraph.valueAxis = valueAxisXYZ;
+            magnYGraph.valueField = "magnY";
+            magnYGraph.title = "Magnetic field in Y direction (uT)";
+            magnYGraph.type = "line";
+            magnYGraph.bullet = "round";
+            magnYGraph.showBalloon = false;
+            magnYGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(magnYGraph);
+
+            var magnZGraph = new AmCharts.AmGraph();
+            magnZGraph.valueAxis = valueAxisXYZ;
+            magnZGraph.valueField = "magnZ";
+            magnZGraph.title = "Magnetic field in Z direction (uT)";
+            magnZGraph.type = "line";
+            magnZGraph.bullet = "round";
+            magnZGraph.showBalloon = false;
+            magnZGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(magnZGraph);
+
+            var gyrXGraph = new AmCharts.AmGraph();
+            gyrXGraph.valueAxis = valueAxisXYZ;
+            gyrXGraph.valueField = "gyrX";
+            gyrXGraph.title = "Angle variation in X direction (°/s)";
+            gyrXGraph.type = "line";
+            gyrXGraph.bullet = "round";
+            gyrXGraph.showBalloon = false;
+            gyrXGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(gyrXGraph);
+
+            var gyrYGraph = new AmCharts.AmGraph();
+            gyrYGraph.valueAxis = valueAxisXYZ;
+            gyrYGraph.valueField = "gyrY";
+            gyrYGraph.title = "Angle variation in Y direction (°/s)";
+            gyrYGraph.type = "line";
+            gyrYGraph.bullet = "round";
+            gyrYGraph.showBalloon = false;
+            gyrYGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(gyrYGraph);
+
+            var gyrZGraph = new AmCharts.AmGraph();
+            gyrZGraph.valueAxis = valueAxisXYZ;
+            gyrZGraph.valueField = "gyrZ";
+            gyrZGraph.title = "Angle variation in Z direction (°/s)";
+            gyrZGraph.type = "line";
+            gyrZGraph.bullet = "round";
+            gyrZGraph.showBalloon = false;
+            gyrZGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(gyrZGraph);
 
             // cursor
             chartCursor = new AmCharts.ChartCursor();
@@ -206,7 +310,8 @@
                 "date":"2014-05-11",
                 "dActiv":"4380"
             }];
-            // daily heat activation duration (statistics)
+
+            // daily statistics chart
             dayStatChart = new AmCharts.AmSerialChart();
             dayStatChart.pathToImages = "amcharts/images/";
             dayStatChart.dataProvider = dayStatChartData;

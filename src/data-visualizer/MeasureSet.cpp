@@ -7,6 +7,10 @@ typedef map<FormattedDate, Measure>::iterator MSIt;
 typedef map<FormattedDate, Measure>::const_iterator MSCit;
 typedef map<FormattedDate, Measure>::reverse_iterator MSRit;
 
+MeasureSet::MeasureSet()
+{
+}
+
 void MeasureSet::add(const Measure &measure)
 {
 	measures.insert(pair<FormattedDate, Measure>(measure.getDate(), measure));

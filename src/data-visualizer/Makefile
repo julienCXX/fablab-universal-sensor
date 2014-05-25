@@ -1,7 +1,7 @@
 CXX=g++
 DEFINES=-DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
-INCPATH=-I/usr/lib/qt/mkspecs/linux-g++ -I. -I. -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I.
-LIBS=-lQt5Core
+INCPATH=-I/usr/lib/qt/mkspecs/linux-g++ -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore
+LIBS=-lQt5Core -lconfig++
 CXXFLAGS=-std=c++11 -Wall -Wextra -g $(LIBS) -fPIE $(DEFINES) $(INCPATH)
 
 EXEC=filter_run

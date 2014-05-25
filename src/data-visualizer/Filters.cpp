@@ -22,7 +22,7 @@ Filters::Filters()
 }
 
 void Filters::filterHeatData(MeasureSet &measures,
-		const ParamFilterHeatData &params)
+		const ParamFilterData &params)
 {
 	auto it = measures.begin();
 	auto itEnd = measures.end();
@@ -50,7 +50,7 @@ void Filters::filterHeatData(MeasureSet &measures,
 }
 
 void Filters::filterHeatDataAdvanced(MeasureSet &measures,
-		const ParamFilterHeatData &params)
+		const ParamFilterData &params)
 {
 	auto it = measures.begin();
 	auto itEnd = measures.end();
@@ -95,7 +95,7 @@ void Filters::filterHeatDataAdvanced(MeasureSet &measures,
 }
 
 void Filters::filterAccelData(MeasureSet &measures,
-		const ParamFilterAccelData &params)
+		const ParamFilterData &params)
 {
 	auto it = measures.begin();
 	auto itEnd = measures.end();

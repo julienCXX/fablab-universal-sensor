@@ -7,28 +7,32 @@
 
 // filtering algorithm parameters
 typedef struct {
-	uint32_t heatMeasureIdx;
 	union {
-		float threshold; 
+		// parameters for heat-based filters
 		struct {
-			float thresholdHActive;
-			float thresholdHInactive;
+			uint32_t heatMeasureIdx;
+			union {
+				float threshold; 
+				struct {
+					float thresholdHActive;
+					float thresholdHInactive;
+				};
+			};
+			uint32_t inertiaHActive;
+			uint32_t inertiaHInactive;
+		};
+		// parameters for acceleration-based filters
+		struct {
+			uint32_t accMeasureXIdx;
+			uint32_t accMeasureYIdx;
+			uint32_t accMeasureZIdx;
+			float minVarAcc;
 		};
 	};
-	uint32_t inertiaHActive;
-	uint32_t inertiaHInactive;
+	// parameters for both heat and acceleration-based filtering
 	uint32_t minCountActive;
 	uint32_t minCountInactive;
-} ParamFilterHeatData;
-
-typedef struct {
-	uint32_t accMeasureXIdx;
-	uint32_t accMeasureYIdx;
-	uint32_t accMeasureZIdx;
-	float minVarAcc;
-	uint32_t minCountActive;
-	uint32_t minCountInactive;
-} ParamFilterAccelData;
+} ParamFilterData;
 
 // the filtering algorithms, organized into a class
 class Filters
@@ -41,13 +45,13 @@ class Filters
 
 	public:
 		static void filterHeatData(MeasureSet &measures,
-				const ParamFilterHeatData &params);
+				const ParamFilterData &params);
 
 		static void filterHeatDataAdvanced(MeasureSet &measures,
-				const ParamFilterHeatData &params);
+				const ParamFilterData &params);
 
 		static void filterAccelData(MeasureSet &measures,
-				const ParamFilterAccelData &params);
+				const ParamFilterData &params);
 
 };
 

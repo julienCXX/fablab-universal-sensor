@@ -4,7 +4,7 @@ INCPATH=-I/usr/lib/qt/mkspecs/linux-g++ -I/usr/include/qt -I/usr/include/qt/QtGu
 LIBS=-lQt5Core -lconfig++ -lboost_filesystem
 CXXFLAGS=-std=c++11 -Wall -Wextra -g $(LIBS) -fPIE $(DEFINES) $(INCPATH)
 
-EXEC=filter_run
+EXEC=dataFilter
 CPP_SOURCES=$(wildcard *.cpp)
 OBJS=$(CPP_SOURCES:%.cpp=%.o)
 

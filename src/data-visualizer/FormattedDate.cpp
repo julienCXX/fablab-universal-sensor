@@ -1,4 +1,6 @@
 #include "FormattedDate.h"
+#include <iostream>
+#include <cassert>
 
 using namespace std;
 using namespace Qt;
@@ -53,16 +55,21 @@ ostream &FormattedDate::operator<<(std::ostream &output) const
 
 string FormattedDate::toString() const
 {
-	static const char *format = "yyyy:MM:Dd HH:mm:ss.zzz";
+	static const char *format = "yyyy-MM-dd HH:mm:ss.zzz";
 	static const QString qFormat = QString(format);
 	return date.toString(qFormat).toStdString();
 }
 
 void FormattedDate::setFromString(const string &str_date)
 {
-	static const char *format = "yyyy:M:dTH:m:s.zzz";
+	static const char *format = "yyyy-M-dTHH:mm:ss.zzz";
+	static const char *formatSimp = "yyyy-M-dTHH:mm:ss";
 	static const QString qFormat = QString(format);
-	date = QDateTime::fromString(QString(str_date.c_str()), qFormat);
+	static const QString qFormatSimp = QString(formatSimp);
+	date = QDateTime::fromString(str_date.c_str(), qFormat);
+	if (!date.isValid())
+		// date without ms
+		date = QDateTime::fromString(str_date.c_str(), qFormatSimp);
+	assert(date.isValid());
 }
-
 

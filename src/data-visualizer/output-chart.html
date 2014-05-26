@@ -283,6 +283,17 @@
             gyrZGraph.hideBulletsCount = hideBulletsCount;
             chart.addGraph(gyrZGraph);
 
+	    // computed water flow
+            var wfGraph = new AmCharts.AmGraph();
+            wfGraph.valueAxis = valueAxisXYZ;
+            wfGraph.valueField = "wFlow";
+            wfGraph.title = "Instant water flow (l/s)";
+            wfGraph.type = "line";
+            wfGraph.bullet = "round";
+            wfGraph.showBalloon = false;
+            wfGraph.hideBulletsCount = hideBulletsCount;
+            chart.addGraph(wfGraph);
+
             // cursor
             chartCursor = new AmCharts.ChartCursor();
             chartCursor.cursorPosition = "mouse";
@@ -324,12 +335,22 @@
                 "mm": "min ",
                 "ss": "sec"
             };
-            dayStatChart.addValueAxis(dateValueAxis);
+            var literAxis = new AmCharts.ValueAxis();
+	    literAxis.title = "Total water quantity (l)";
+	    if (statHActivation) {
+		    dayStatChart.addValueAxis(dateValueAxis);
+	    } else {
+		    dayStatChart.addValueAxis(literAxis);
+	    }
 
             // graph
             var dayStatGraph = new AmCharts.AmGraph();
             dayStatGraph.valueField = "dActiv";
-            dayStatGraph.title = "Daily heater activity";
+	    if (statHActivation) {
+		    dayStatGraph.title = "Daily heater activity";
+	    } else {
+		    dayStatGraph.title = "Daily water consumption";
+	    }
             dayStatGraph.type = "column";
             dayStatGraph.fillAlphas = 1;
             dayStatGraph.labelPosition = "middle";

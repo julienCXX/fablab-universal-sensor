@@ -132,7 +132,8 @@ string Measure::toJsonFormat(const JsonMeasureFormat &format) const
 						+ field2 + "\":1");
 		}
 	} else {
-		field = format.getNonBoolResultField();
+		//field = format.getNonBoolResultField();
+		field = "wFlow";
 		if (!field.empty()) {
 			output.append(",\"" + field + "\":");
 			output.append(to_string(getFloatResult()));

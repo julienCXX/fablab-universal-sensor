@@ -12,7 +12,7 @@ class JsonMeasureFormat
 		std::string dateFormat;
 		bool isBoolResult;
 
-		std::string nonBoolResultField;
+		std::string nonBoolResultField = "wFlow";
 		std::string boolTrueResultField = "hOn";
 		std::string boolFalseResultField = "hOff";
 

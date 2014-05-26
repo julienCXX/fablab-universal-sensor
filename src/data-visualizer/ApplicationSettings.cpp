@@ -123,6 +123,11 @@ JsonMeasureFormat ApplicationSettings::getOutputConfig() const
 		jmf.setValueField(i, "gyrY");
 	if (conf.lookupValue("outputConfiguration.gyrZIdx", i))
 		jmf.setValueField(i, "gyrZ");
+	string s;
+	if (conf.lookupValue("filterType", s)) {
+		if (s == "WATER_FLOW_ACCELERATION")
+			jmf.setIsBoolResult(false);
+	}
 
 	return jmf;
 }

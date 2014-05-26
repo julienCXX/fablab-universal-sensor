@@ -47,6 +47,17 @@ class Filters
 		static void filterAccelData(MeasureSet &measures,
 				const ParamFilterData &params);
 
+		static void computeWaterFlow(MeasureSet &measures,
+				const ParamFilterData &params);
+
+		static float findMaxVariation(const MeasureSet &ms);
+
+		static float findAvgVariation(const MeasureSet &ms);
+
+		static float findMaxNoiseLength(const MeasureSet &ms, float minVar);
+
+		static float findFlowFactor(const MeasureSet &ms, float actualFlow);
+
 };
 
 #endif

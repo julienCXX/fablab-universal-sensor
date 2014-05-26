@@ -1,12 +1,10 @@
 ********************************  Rendus  ************************************
 
-- Flyer: format ok, à terminer
-- Poster: basé sur flyer
-- Video: format pub, "je voudrais vérifier ma consommation pour comparer à ma facture", 
-on voit l'équipe qui étudie l'installation, installe le sensortag, prend les mesures, et
-annalyse ces mesures. - mustapha fait le script
-- Remplir le wiki (graphes, protocoles, photos) et le réorganiser
-- Présentation: faire une démonstration sur les tuyaux de la cafet
+- Flyer: ok, à revoir, impression
+- Poster: ok, à revoir, impression
+- Video: en cours,
+- Remplir le wiki (graphes, protocoles, photos) et le réorganiser: lundi dernier moment
+- Présentation, faire une démonstration sur les tuyaux de la cafet: test lundi matin
 
 ********************************   À Faire   *********************************
 
@@ -26,3 +24,6 @@ annalyse ces mesures. - mustapha fait le script
 - Mesure avec plusieurs capteurs en même temps
 - Enregistrement des mesures automatiquement avec incrémentation d'un index dans le titre de la mesure
 - Si déconnexion du sensortag, le pc essaye automatiquement de se reconnecter
+- flyer
+- poster
+- video en cours

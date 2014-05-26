@@ -1,6 +1,7 @@
 #include "FormattedDate.h"
 #include <iostream>
 #include <cassert>
+#include <cmath>
 
 using namespace std;
 using namespace Qt;
@@ -53,9 +54,30 @@ ostream &FormattedDate::operator<<(std::ostream &output) const
 	return output << toString();
 }
 
+float FormattedDate::absSecondsDiff(const FormattedDate &other) const
+{
+	qint64 thisMsEpoch = date.toMSecsSinceEpoch(),
+	       otherMsEpoch = other.date.toMSecsSinceEpoch(),
+	       milliDiff = thisMsEpoch - otherMsEpoch;
+	float result = milliDiff / 1000.0;
+	return abs(result);
+}
+
+bool FormattedDate::sameDayAs(const FormattedDate &other) const
+{
+	return date.daysTo(other.date) == 0;
+}
+
 string FormattedDate::toString() const
 {
 	static const char *format = "yyyy-MM-dd HH:mm:ss.zzz";
+	static const QString qFormat = QString(format);
+	return date.toString(qFormat).toStdString();
+}
+
+string FormattedDate::toStringDayOnly() const
+{
+	static const char *format = "yyyy-MM-dd";
 	static const QString qFormat = QString(format);
 	return date.toString(qFormat).toStdString();
 }

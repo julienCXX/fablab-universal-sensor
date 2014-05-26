@@ -24,31 +24,28 @@ SensorTag.discover(function(sensorTag) {
             setTimeout(callback, 2000);
         },
         function(callback) {
+            sensorTag.setAccelerometerPeriod(1000, callback);
+        },
+        function(callback) {
             console.log('readAccelerometer');
-            i = 0;
             sensorTag.readAccelerometer(function(x, y, z) {
                 var date = new Date();
-                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
+                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString()
+        + '.' + leftPad(date.getMilliseconds(), 3) + ' ';
                 //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
                 appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));
 //            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
-                i++;
-                if (i >= 1000)
-                    callback();
             });
 
             sensorTag.on('accelerometerChange', function(x, y, z) {
                 var date = new Date();
-                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
+                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString()
+        + '.' + leftPad(date.getMilliseconds(), 3) + ' ';
                 //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
                 appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));
 //            console.log(dateString + '\tz = %d G \n', z.toFixed(1));
-                i++;
-                if (i >= 1000) {
-                    callback();
-                }
             });
 
             sensorTag.notifyAccelerometer(function() {

@@ -28,7 +28,8 @@ SensorTag.discover(function(sensorTag) {
             i = 0;
             sensorTag.readGyroscope(function(x, y, z) {
                 var date = new Date();
-                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
+                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString()
+                + '.' + leftPad(date.getMilliseconds(), 3) + ' ';
                 //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
                 appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));
@@ -40,7 +41,8 @@ SensorTag.discover(function(sensorTag) {
 
             sensorTag.on('gyroscopeChange', function(x, y, z) {
                 var date = new Date();
-                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString() + ' ';
+                var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + 'T' + date.toLocaleTimeString()
+                + '.' + leftPad(date.getMilliseconds(), 3) + ' ';
                 //console.log(dateString + '%d %d %d', x.toFixed(2), y.toFixed(2), z.toFixed(2));
                 appendToCurrFile(dateString + x.toFixed(2) + ' ' +  y.toFixed(2) + ' ' +  z.toFixed(2));
 //            console.log(dateString + '\ty = %d G', y.toFixed(1));

@@ -25,6 +25,7 @@ class ApplicationSettings
 		void readFromFile(const std::string &configFile);
 		std::string getInputFileName() const;
 		std::string getInputFilePath() const;
+		std::string getFactualStateChangeFileName() const;
 		FilterType getFilterType() const;
 		ParamFilterData getFilterParameters() const;
 		JsonMeasureFormat getOutputConfig() const;

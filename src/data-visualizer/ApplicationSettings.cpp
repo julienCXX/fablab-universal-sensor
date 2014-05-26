@@ -32,6 +32,14 @@ string ApplicationSettings::getInputFilePath() const
 	return "measures/";
 }
 
+string ApplicationSettings::getFactualStateChangeFileName() const
+{
+	string s;
+	if (conf.lookupValue("factualStateChangeFileName", s))
+		return s;
+	return "";
+}
+
 FilterType ApplicationSettings::getFilterType() const
 {
 	string s;

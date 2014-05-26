@@ -304,18 +304,10 @@
             chart.addLegend(legend, "legenddiv");
             chart.write('chartdiv');
 
-            var dayStatChartData = [{
-                "date":"2014-05-10",
-                "dActiv":"218"
-            },{
-                "date":"2014-05-11",
-                "dActiv":"4380"
-            }];
-
             // daily statistics chart
             dayStatChart = new AmCharts.AmSerialChart();
             dayStatChart.pathToImages = "amcharts/images/";
-            dayStatChart.dataProvider = dayStatChartData;
+            dayStatChart.dataProvider = dayStat;
             dayStatChart.categoryField = "date";
             dayStatChart.dataDateFormat = "YYYY-MM-DD";
             dayStatChart.creditsPosition = "bottom-right";

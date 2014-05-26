@@ -53,6 +53,55 @@ string iterateOnMeasuresAsFactualToJsonFormat(const MeasureSet &ms)
 	return output;
 }
 
+string measureAsDayStatToJsonFormat(const Measure &mes)
+{
+	string output;
+	output.append("\"date\":\"" + mes.getDate().toStringDayOnly() + "\"");
+	output.append(",\"dActiv\":" + to_string((long int) mes.getFloatResult()));
+	return output;
+}
+
+string iterateOnMeasuresAsDayStatToJsonFormat(const MeasureSet &ms)
+{
+	auto it = ms.cbegin(), itEnd = ms.cend();
+	string output = "var dayStat = [";
+	if (it != itEnd) {
+		output.append("{");
+		output.append(measureAsDayStatToJsonFormat(it->second) + "}");
+		it++;
+	}
+	while (it != itEnd) {
+		output.append(",{");
+		output.append(measureAsDayStatToJsonFormat(it->second) + "}");
+		it++;
+	}
+	output.append("]");
+	return output;
+}
+
+void computeDStats(const MeasureSet &ms, MeasureSet &dayStatMS)
+{
+	auto it = ms.cbegin(), itEnd = ms.cend();
+	FormattedDate curDate, nextDate;
+	float nbSecs = 0.0;
+	if (it == itEnd)
+		return;
+	curDate = it->second.getDate();
+	it++;
+	while (it != itEnd) {
+		nextDate = it->second.getDate();
+		if (curDate.sameDayAs(nextDate)) {
+			nbSecs += it->second.getFloatResult();
+		} else {
+			dayStatMS.add(Measure(curDate, nbSecs));
+			nbSecs = 0.0;
+		}
+		curDate = nextDate;
+		it++;
+	}
+	dayStatMS.add(Measure(curDate, nbSecs));
+}
+
 int main(int argc, char **argv)
 {
 	ApplicationSettings as;
@@ -62,7 +111,7 @@ int main(int argc, char **argv)
 	string fileName = as.getInputFileName(),
 	       filePath = as.getInputFilePath();
 	fs::path path(fs::current_path());
-	MeasureSet ms, factualMS;
+	MeasureSet ms, factualMS, dayStatMS;
 	assert(!fileName.empty() || !filePath.empty());
 
 	// loading raw data files
@@ -107,13 +156,17 @@ int main(int argc, char **argv)
 			break;
 	}
 	
+	// computing daily statistics
+	computeDStats(ms, dayStatMS);
+
 	// writing results to output
 	cerr << "Saving results" << endl;
 	ofstream jsdat;
 	jsdat.open("jsdat.js");
 	jsdat << "var chartData = " << ms.toJsonFormat(as.getOutputConfig())
 		<< endl;
-	jsdat << iterateOnMeasuresAsFactualToJsonFormat(factualMS);
+	jsdat << iterateOnMeasuresAsFactualToJsonFormat(factualMS) << endl;
+	jsdat << iterateOnMeasuresAsDayStatToJsonFormat(dayStatMS) << endl;
 	jsdat.close();
 	return EXIT_SUCCESS;
 }

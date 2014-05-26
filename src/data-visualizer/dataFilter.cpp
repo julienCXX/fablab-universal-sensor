@@ -138,6 +138,7 @@ int main(int argc, char **argv)
 		factualMS.add(as.getFactualStateChangeFileName());
 
 	// applying filter
+	bool isHeaterActivation = true;
 	cerr << "Filtering" << endl;
 	switch (as.getFilterType()) {
 		case ON_OFF_HEAT:
@@ -151,6 +152,8 @@ int main(int argc, char **argv)
 			Filters::filterAccelData(ms, as.getFilterParameters());
 			break;
 		case WATER_FLOW_ACCELERATION:
+			isHeaterActivation = false;
+			Filters::computeWaterFlow(ms, as.getFilterParameters());
 			break;
 		case NONE:
 			break;
@@ -163,6 +166,11 @@ int main(int argc, char **argv)
 	cerr << "Saving results" << endl;
 	ofstream jsdat;
 	jsdat.open("jsdat.js");
+	jsdat << "var statHActivation = ";
+	if (isHeaterActivation)
+		jsdat << "true;" << endl;
+	else
+		jsdat << "false;" << endl;
 	jsdat << "var chartData = " << ms.toJsonFormat(as.getOutputConfig())
 		<< endl;
 	jsdat << iterateOnMeasuresAsFactualToJsonFormat(factualMS) << endl;

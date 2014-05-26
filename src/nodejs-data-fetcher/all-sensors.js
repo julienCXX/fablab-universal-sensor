@@ -9,7 +9,7 @@ require('./signal_handler');
 var SensorTag = require('./node_sensortag/index');
 
 var filePath = '../../measures/';
-var fetchDelay = 1000; // in ms
+var fetchDelay = 1000; // in ms, do not put less than 1000
 var intervalHandle;
 var cleanDisconnect = false;
 
@@ -114,43 +114,72 @@ var connectAndInitProcedure = function(sensorTag, callback) {
         },
         function(callback) {
             console.log('enableIrTemperature');
-            sensorTag.enableIrTemperature();
+            sensorTag.enableIrTemperature(callback);
+        },
+        function(callback) {
             console.log('enableAccelerometer');
-            sensorTag.enableAccelerometer();
+            sensorTag.enableAccelerometer(callback);
+        },
+        function(callback) {
             console.log('enableHumidity');
-            sensorTag.enableHumidity();
+            sensorTag.enableHumidity(callback);
+        },
+        function(callback) {
             console.log('enableMagnetometer');
-            sensorTag.enableMagnetometer();
+            sensorTag.enableMagnetometer(callback);
+        },
+        function(callback) {
             console.log('enableBarometricPressure');
-            sensorTag.enableBarometricPressure();
+            sensorTag.enableBarometricPressure(callback);
+        },
+        function(callback) {
             console.log('enableGyroscope');
-            sensorTag.enableGyroscope();
-            callback();
+            sensorTag.enableGyroscope(callback);
         },
         function(callback) {
             // initialize sensor-reading methods
             setTimeout(function() {
-                sensorTag.readIrTemperature(setCurObjAmbTemp);
-                sensorTag.readAccelerometer(setCurAccel);
-                sensorTag.readHumidity(setCurHumidity);
-                sensorTag.readMagnetometer(setCurMagnet);
-                sensorTag.readBarometricPressure(setCurPressure);
-                sensorTag.readGyroscope(setCurGyro);
+                sensorReadLoop(sensorTag, false);
             }, 2000);
             setTimeout(callback, 2000);
         }
     ], callback);
 }
 
-var sensorReadLoop = function(sensorTag) {
+var sensorReadLoop = function(sensorTag, append) {
     setCurDate(new Date());
-    sensorTag.readIrTemperature(setCurObjAmbTemp);
-    sensorTag.readAccelerometer(setCurAccel);
-    sensorTag.readHumidity(setCurHumidity);
-    sensorTag.readMagnetometer(setCurMagnet);
-    sensorTag.readBarometricPressure(setCurPressure);
-    sensorTag.readGyroscope(setCurGyro);
-    appendToCurrFile(measureToLine());
+    async.series([
+        function(callback) {
+            sensorTag.readIrTemperature(setCurObjAmbTemp);
+            callback();
+        },
+        function(callback) {
+            sensorTag.readAccelerometer(setCurAccel);
+            callback();
+        },
+        function(callback) {
+            sensorTag.readHumidity(setCurHumidity);
+            callback();
+        },
+        function(callback) {
+            sensorTag.readMagnetometer(setCurMagnet);
+            callback();
+        },
+        function(callback) {
+            sensorTag.readBarometricPressure(setCurPressure);
+            callback();
+        },
+        function(callback) {
+            sensorTag.readGyroscope(setCurGyro);
+            callback();
+        },
+        function(callback) {
+            if (append) {
+                appendToCurrFile(measureToLine());
+            }
+            callback();
+        },
+    ], function() {});
 }
 
 console.log('Use Ctrl-C to stop this program');
@@ -165,7 +194,7 @@ SensorTag.discover(function(sensorTag) {
             setAutomaticFilePath(filePath);
             appendToCurrFile(fieldDesc);
             intervalHandle = setInterval(function() {
-                sensorReadLoop(sensorTag);
+                sensorReadLoop(sensorTag, true);
             }, fetchDelay);
             // setting interrupt callback
             setSigIntCallback(callback);

@@ -33,6 +33,12 @@ Measure::Measure(const string &line, char separator,
 	this->result = result;
 }
 
+Measure::Measure(const FormattedDate &date, float result)
+{
+	this->date = date;
+	this->result = result;
+}
+
 const FormattedDate &Measure::getDate() const
 {
 	return date;

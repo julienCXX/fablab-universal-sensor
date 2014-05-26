@@ -30,6 +30,9 @@ class Measure
 		Measure(const std::string &line, char separator = ' ',
 				float result = 0.0);
 
+		// result-only measure
+		Measure(const FormattedDate &date, float result);
+
 		// returns the date member
 		const FormattedDate &getDate() const;
 		// returns the list of values member

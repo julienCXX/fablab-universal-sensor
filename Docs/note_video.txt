@@ -1,6 +1,35 @@
 - reprendre la mise en situation du flyer
-- musique de ghost buster
+
+- une personne chez elle, ouvre une lettre
+- "ah tiens, une facture"
+- "quoi ?!!!"
+- alarme kill bill
 - lecture d'une facture monstrueuse
-- exclamation !
-- appel aux WasteBusters
-- musique
+- "mais je n'ai pas pu boire autant d'eau !"
+- "il faudrait que je mesure ma consommation, mais comment faire ..."
+- "je sais ! Les wastebusters et leur capteur intelligent !"
+- musique de ghost buster
+- technicien marchant
+- arrivée chez le client
+- "bonjour, vous nous avez appelé pour vous aidé à mesurer votre consommation d'eau"
+- "c'est bien ça"
+- "et bien allons-y !"
+- on reprend ensuite les étapes du flyer
+- " I évaluation du problème et de l'environement "
+- Le client explique la situation
+- questions de l'équipe
+- Le client montre le tuyau d'arrivée d'eau
+- " II création d'un protocole  et Mise en place du capteur"
+- Il faut qu'on arrive à mesurer les vibrations en fonction du débit pour établir une échelle
+- Calcul de l'échelle
+- " III Prise de mesure par le capteur "
+- "ok le capteur est placé, vous n'avez rien à faire"
+- "vous pouvez voir qu'il ne vous dérangera aucunement"
+- " IV Analyse des résultats "
+- on montre un graphe, explication au client
+- image du rapport envoyé
+
+
+- Liste des autres mesures possibles
+
+

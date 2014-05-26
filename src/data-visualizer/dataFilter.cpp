@@ -16,10 +16,42 @@ namespace fs = boost::filesystem;
 
 #include "ApplicationSettings.h"
 #include "MeasureSet.h"
+#include "Measure.h"
 #include "FormattedDate.h"
 #include "Filters.h"
 
 using namespace std;
+
+string measureAsFactualToJsonFormat(const Measure &mes)
+{
+	string output;
+	output.append("\"date\":\"" + mes.getDate().toString() + "\"");
+	output.append(",\"above\":true,\"inside\":true");
+	output.append(",\"lineAlpha\":1,\"labelRotation\":90");
+	if (mes[0] == 0.0)
+		output.append(",\"label\":\"Factual heater stop\"");
+	else
+		output.append(",\"label\":\"Factual heater start\"");
+	return output;
+}
+
+string iterateOnMeasuresAsFactualToJsonFormat(const MeasureSet &ms)
+{
+	auto it = ms.cbegin(), itEnd = ms.cend();
+	string output = "var guides = [";
+	if (it != itEnd) {
+		output.append("{");
+		output.append(measureAsFactualToJsonFormat(it->second) + "}");
+		it++;
+	}
+	while (it != itEnd) {
+		output.append(",{");
+		output.append(measureAsFactualToJsonFormat(it->second) + "}");
+		it++;
+	}
+	output.append("]");
+	return output;
+}
 
 int main(int argc, char **argv)
 {
@@ -30,7 +62,7 @@ int main(int argc, char **argv)
 	string fileName = as.getInputFileName(),
 	       filePath = as.getInputFilePath();
 	fs::path path(fs::current_path());
-	MeasureSet ms;
+	MeasureSet ms, factualMS;
 	assert(!fileName.empty() || !filePath.empty());
 
 	// loading raw data files
@@ -52,6 +84,9 @@ int main(int argc, char **argv)
 			ms.add(dirItr->path().string());
 		}
 	}
+	// loading factual measures, if existing
+	if (!as.getFactualStateChangeFileName().empty())
+		factualMS.add(as.getFactualStateChangeFileName());
 
 	// applying filter
 	cerr << "Filtering" << endl;
@@ -78,6 +113,7 @@ int main(int argc, char **argv)
 	jsdat.open("jsdat.js");
 	jsdat << "var chartData = " << ms.toJsonFormat(as.getOutputConfig())
 		<< endl;
+	jsdat << iterateOnMeasuresAsFactualToJsonFormat(factualMS);
 	jsdat.close();
 	return EXIT_SUCCESS;
 }
